@@ -1,4 +1,4 @@
-document.head.innerHTML += "<style>*{margin:0;padding:0}body{font:100% monospace;text-align:center}img{line-height:0%;position:absolute;bottom:0;left:50%;margin-left:-227px}h1{font-weight:400;padding:10px;text-align:left;font-size:100%}</style>";
+document.head.innerHTML += "<style>*{margin:0;padding:0;font-size:100%}body{font-family:monospace;text-align:center}h1{font-weight:400;padding:10px;text-align:left}</style>";
 
 randomRange = function(from, to) {
   return Math.floor(Math.random() * (to + 1)) + from;
@@ -18,7 +18,7 @@ randomCap = function(str) {
 };
 
 window.onload = function() {
-  document.body.innerHTML = "<img src='assets/inaban.png?' alt='moe'><h1>moe</h1>";
+  document.body.innerHTML = "<h1>moe</h1>";
   var h1 = document.getElementsByTagName("h1")[0];
   var newTitle = "";
   var separators = "#%^*=?/+_-~!:$.".split("");
