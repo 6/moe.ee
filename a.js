@@ -20,8 +20,17 @@ var Videos = Backbone.Collection.extend({
 });
 
 var Player = Backbone.View.extend({
+  el: 'body',
+  events: {
+    'keydown': 'onKeyDown',
+  },
+
+  initialize: function(options) {
+    this.player = options['player'];
+  },
+
   playCurrentVideo: function() {
-    this.el.loadVideoById(this.collection.currentVideoId());
+    this.player.loadVideoById(this.collection.currentVideoId());
   },
 
   playNextVideo: function() {
@@ -29,8 +38,20 @@ var Player = Backbone.View.extend({
     this.playCurrentVideo();
   },
 
+  playPreviousVideo: function() {
+    this.collection.changeVideoIndex(-1);
+    this.playCurrentVideo();
+  },
+
   onPlayStateChange: function(newState) {
     if(newState === 0) this.playNextVideo();
+  },
+
+  onKeyDown: function(e) {
+    switch(e.keyCode) {
+      case 37: this.playPreviousVideo(); break;
+      case 39: this.playNextVideo(); break;
+    }
   },
 });
 
@@ -42,7 +63,7 @@ window.onYouTubePlayerReady = function(playerApiId) {
   }));
   var player = document.getElementById(playerId);
   var playerView = new Player({
-    el: player,
+    player: player,
     collection: videos,
   });
   // TODO - better way to do this?
