@@ -3,10 +3,6 @@ var Videos = Backbone.Collection.extend({
   model: Video,
   index: 0,
 
-  initialize: function() {
-    this.setPlaylist(0);
-  },
-
   currentVideoId: function() {
     return this.at(this.index).get('videoId');
   },
@@ -44,9 +40,12 @@ var Player = Backbone.View.extend({
 
   initialize: function(options) {
     this.player = options['player'];
+    this.collection.on('add', this.playCurrentVideo, this);
+    this.collection.setPlaylist(0);
   },
 
   playCurrentVideo: function() {
+    this.player.clearVideo();
     this.player.loadVideoById(this.collection.currentVideoId());
   },
 
@@ -76,6 +75,10 @@ var Player = Backbone.View.extend({
       case 37: this.playPreviousVideo(); break;
       case 39: this.playNextVideo(); break;
       case 32: this.playPause(); break;
+    }
+    var oneKeyCode = 49;
+    if(e.keyCode <= oneKeyCode + 8 && oneKeyCode >= oneKeyCode) {
+      this.collection.setPlaylist(e.keyCode - oneKeyCode);
     }
   },
 });
