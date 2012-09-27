@@ -83,23 +83,33 @@ var Player = Backbone.View.extend({
   },
 });
 
-var playerId = "youtube_player";
-
-window.onYouTubePlayerReady = function(playerApiId) {
+function onYouTubeIframeAPIReady() {
+  var player;
   var videos = new Videos();
-  var player = document.getElementById(playerId);
-  var playerView = new Player({
-    player: player,
-    collection: videos,
-  });
-  // TODO - better way to do this?
-  window.onPlayStateChange = function(newState) {
-    playerView.onPlayStateChange(newState);
-  };
-  player.addEventListener("onStateChange", "onPlayStateChange");
-  playerView.playCurrentVideo();
-};
 
-(function() {
-  swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=player1&version=3", "yt-replaces-me", "100%", "100%", "9", null, null, {allowScriptAccess: "always", wmode: "opaque"}, {id: playerId});
-})();
+  onPlayerReady = function() {
+    var playerView = new Player({
+      player: player,
+      collection: videos,
+    });
+    // TODO - better way to do this?
+    window.onPlayStateChange = function(newState) {
+      playerView.onPlayStateChange(newState);
+    };
+    player.addEventListener("onStateChange", "onPlayStateChange");
+  };
+
+  player = new YT.Player("yt-replaces-me", {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      controls: 0,
+      showinfo: 0 ,
+      modestbranding: 1,
+      wmode: "opaque",
+    },
+    events: {
+      'onReady': onPlayerReady,
+    },
+  });
+}
