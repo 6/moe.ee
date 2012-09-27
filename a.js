@@ -83,7 +83,7 @@ var Player = Backbone.View.extend({
   },
 });
 
-function onYouTubeIframeAPIReady() {
+window.onYouTubeIframeAPIReady = function() {
   var player;
   var videos = new Videos();
 
