@@ -26,6 +26,7 @@ var Videos = Backbone.Collection.extend({
     if(playlistIndex < 0 || playlistIndex > this.playlists().length - 1) return;
     var newPlaylist = this.playlists()[playlistIndex];
     this.reset();
+    this.index = 0;
     this.add(_.map(window.videoIds[newPlaylist], function(videoId) {
       return new Video({videoId: videoId});
     }));
