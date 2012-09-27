@@ -43,6 +43,13 @@ var Player = Backbone.View.extend({
     this.playCurrentVideo();
   },
 
+  playPause: function() {
+    if(this.player.getPlayerState() === 1)
+      this.player.pauseVideo();
+    else
+      this.player.playVideo();
+  },
+
   onPlayStateChange: function(newState) {
     if(newState === 0) this.playNextVideo();
   },
@@ -51,6 +58,7 @@ var Player = Backbone.View.extend({
     switch(e.keyCode) {
       case 37: this.playPreviousVideo(); break;
       case 39: this.playNextVideo(); break;
+      case 32: this.playPause(); break;
     }
   },
 });
