@@ -47,7 +47,7 @@ var Player = Backbone.View.extend({
 
   playCurrentVideo: function() {
     this.player.clearVideo();
-    this.player.loadVideoById(this.collection.currentVideoId());
+    this.player.loadVideoById(this.collection.currentVideoId(), 0, "hd720");
   },
 
   playNextVideo: function() {
