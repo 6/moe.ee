@@ -3,6 +3,10 @@ var Videos = Backbone.Collection.extend({
   model: Video,
   index: 0,
 
+  initialize: function() {
+    this.setPlaylist(0);
+  },
+
   currentVideoId: function() {
     return this.at(this.index).get('videoId');
   },
@@ -16,6 +20,19 @@ var Videos = Backbone.Collection.extend({
       newIndex = 0;
     }
     this.index = newIndex;
+  },
+
+  playlists: function() {
+    return _.keys(window.videoIds);
+  },
+
+  setPlaylist: function(playlistIndex) {
+    if(playlistIndex < 0 || playlistIndex > this.playlists().length - 1) return;
+    var newPlaylist = this.playlists()[playlistIndex];
+    this.reset();
+    this.add(_.map(window.videoIds[newPlaylist], function(videoId) {
+      return new Video({videoId: videoId});
+    }));
   },
 });
 
@@ -66,9 +83,7 @@ var Player = Backbone.View.extend({
 var playerId = "youtube_player";
 
 window.onYouTubePlayerReady = function(playerApiId) {
-  var videos = new Videos(_.map(window.videoIds, function(videoId) {
-    return new Video({videoId: videoId});
-  }));
+  var videos = new Videos();
   var player = document.getElementById(playerId);
   var playerView = new Player({
     player: player,
