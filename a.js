@@ -95,7 +95,7 @@ window.onYouTubeIframeAPIReady = function() {
     });
     // TODO - better way to do this?
     window.onPlayStateChange = function(newState) {
-      playerView.onPlayStateChange(newState);
+      playerView.onPlayStateChange(newState['data']);
     };
     player.addEventListener("onStateChange", "onPlayStateChange");
   };
